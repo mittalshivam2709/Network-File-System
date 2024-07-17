@@ -3895,3 +3895,710 @@ Sending from Naming Server to Storage Server on socket 7
 Storage Server ID is 1
 Backup2/fold path inserted in trie
 Client: COPY fold Backup2/fold 
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for client....
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 59610
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+Connection accepted from 0
+Connection accepted from 61631
+Connection accepted from 61104
+[+]Client Connection accepted from Port Number: 0
+Client: CREATE / file -f
+
+Client: CREATE . file -f
+
+Client with port number 0 disconnected.
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+Connection accepted from 0
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for ss....
+[+]Listening for client....
+Connection accepted from 0
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 56971
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for client....
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 21676
+Connection accepted from 9900
+Client: CREATE Backup1 a.out -d 
+Sending from Naming Server to Storage Server on socket 7
+Storage Server ID is 1
+Backup1/a.out path inserted in trie
+Client: COPY a.out Backup1/a.out 
+Client: CREATE Backup2 a.out -d 
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+Backup2/a.out path inserted in trie
+Client: COPY a.out Backup2/a.out 
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for client....
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 1199
+Connection accepted from 6824
+Client: CREATE Backup1 a.out -d 
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+Backup1/a.out path inserted in trie
+Client: COPY a.out Backup1/a.out 
+Client: CREATE Backup2 a.out -d 
+Sending from Naming Server to Storage Server on socket 7
+Storage Server ID is 1
+Backup2/a.out path inserted in trie
+Client: COPY a.out Backup2/a.out 
+[+]Client Connection accepted from Port Number: 0
+Client: CREATE A/ shivam.cpp -f
+
+Client: CREATE /A shivam.cpp -f
+
+Client: CREATE /home/shivam/Desktop/nfs/Network-File-System/src/A shivam.cpp -f
+
+Client with port number 0 disconnected.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+Connection accepted from 0
+Connection accepted from 27876
+Connection accepted from 32957
+Client: CREATE Backup1 a.out -d 
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+Backup1/a.out path inserted in trie
+Client: COPY a.out Backup1/a.out 
+Client: CREATE Backup2 a.out -d 
+Sending from Naming Server to Storage Server on socket 7
+Storage Server ID is 1
+Backup2/a.out path inserted in trie
+Client: COPY a.out Backup2/a.out 
+[+]Client Connection accepted from Port Number: 0
+Client with port number 0 disconnected.
+[+]Client Connection accepted from Port Number: 54457
+Client: CREATE folder shivam.cpp -f
+
+Sending from Naming Server to Storage Server on socket 9
+Storage Server ID is 2
+folder/shivam.cpp path inserted in trie
+Client with port number 54457 disconnected.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 18103
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Client Connection accepted from Port Number: 0
+Client with port number 0 disconnected.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55587
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55585
+[+]Listening for ss....
+Connection accepted from 0
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Server Socket is created in ss.
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55585
+[+]Listening for ss....
+Connection accepted from 0
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55585
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Listening for client....
+Connection accepted from 0
+[+]Client Connection accepted from Port Number: 0
+Client with port number 0 disconnected.
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44456
+[+]Bind successful to CLIENT_PORT in ss 55585
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+Connection accepted from 0
+Connection accepted from 64155
+Connection accepted from 4805
+Client: CREATE Backup1 fold -d 
+Sending from Naming Server to Storage Server on socket 6
+Storage Server ID is 0
+Backup1/fold path inserted in trie
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+Connection accepted from 0
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 8424
+Connection accepted from 34506
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 10888
+Connection accepted from 27809
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for client....
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 2255
+Connection accepted from 10928
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for client....
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 22733
+Connection accepted from 25252
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 46737
+Connection accepted from 49809
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55584
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Server Socket is created in ss.
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55583
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44452
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44452
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44452
+[+]Listening for client....
+Connection accepted from 0
+Connection accepted from 52376
+Connection accepted from 19122
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44452
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Server Socket is created in ss.
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 36549
+Connection accepted from 48781
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44450
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Bind successful to CLIENT_PORT 44450
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44450
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 52929
+Connection accepted from 24731
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Bind successful to CLIENT_PORT 44450
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44450
+[+]Bind successful to CLIENT_PORT in ss 55580
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44450
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 23697
+Connection accepted from 59565
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Server Socket is created in ss.
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44452
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 40121
+Connection accepted from 44217
+Client: CREATE Backup1 fold -d 
+Sending from Naming Server to Storage Server on socket 4
+Storage Server ID is 0
+Backup1/fold path inserted in trie
+Client: COPY fold Backup1/fold 
+Client: CREATE Backup2 fold -d 
+Sending from Naming Server to Storage Server on socket 7
+Storage Server ID is 1
+Backup2/fold path inserted in trie
+Client: COPY fold Backup2/fold 
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44452
+[+]Server Socket is created in ss.
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 55582
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44451
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55581
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 55585
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44454
+[+]Bind successful to CLIENT_PORT in ss 54433
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44332
+[+]Bind successful to CLIENT_PORT in ss 54433
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 54433
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 44332
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 55551
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 52212
+[+]Listening for ss....
+Connection accepted from 0
+[+]Client Connection accepted from Port Number: 0
+Client with port number 0 disconnected.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 55551
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52212
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 55554
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52214
+[+]Listening for ss....
+Connection accepted from 0
+[+]Client Connection accepted from Port Number: 0
+Client: CREATE /fold shivam -f
+
+Client: CREATE fold shivam -f
+
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+fold/shivam path inserted in trie
+Client: CREATE fold priet -d
+
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+fold/priet path inserted in trie
+Client: CREATE  garvit -d
+
+Client: DELETE fold/file.cpp
+
+Sending from Naming Server to Storage Server on socket 5
+Client: DELETE priet
+
+Client: DELETE fold/priet
+
+Sending from Naming Server to Storage Server on socket 5
+Connection accepted from 47848
+Client: CREATE fold mayank -f
+
+Sending from Naming Server to Storage Server on socket 7
+Storage Server ID is 1
+fold/mayank path inserted in trie
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 55554
+[+]Bind successful to CLIENT_PORT in ss 52214
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 55555
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 55556
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 55556
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 55556
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 54444
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 54444
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52215
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44554
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 51113
+[+]Listening for ss....
+Connection accepted from 0
+Connection accepted from 21720
+[+]Client Connection accepted from Port Number: 0
+Client: CREATE fold2 shivam -f
+
+Sending from Naming Server to Storage Server on socket 5
+Storage Server ID is 0
+fold2/shivam path inserted in trie
+Client: 
+
+Sending from Naming Server to Storage Server on socket 5
+Client with port number 0 disconnected.
+[+]Client Connection accepted from Port Number: 24733
+Client: DELETE fold2/shivam -f
+
+Sending from Naming Server to Storage Server on socket 5
+Client: COPY fold/shivam fold2
+
+Client: COPY fold/shivam fold2
+
+Client: READ fold/shivam
+
+sent port number to client 9999
+Client: WRITE fold/shivam changed content using write
+
+sent port number to client 9999
+Client: GET fold/shivam
+
+sent port number to client 9999
+Client with port number 24733 disconnected.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44554
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 51113
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52214
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 53223
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52214
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 53223
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 52214
+[+]Server Socket is created.
+[+]Listening for ss....
+[+]Bind successful to CLIENT_PORT 53223
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 44455
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44998
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44998
+[+]Listening for client....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 44455
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 44455
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44998
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44998
+[+]Listening for client....
+[+]Bind successful to CLIENT_PORT in ss 44455
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44998
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 44455
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT in ss 44459
+[+]Bind successful to CLIENT_PORT 44999
+[+]Listening for ss....
+[+]Listening for client....
+[+]Server Socket is created.
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT 44999
+[+]Bind successful to CLIENT_PORT in ss 44459
+[+]Listening for client....
+[+]Listening for ss....
+[+]Server Socket is created in ss.
+[+]Bind successful to CLIENT_PORT in ss 44459
+[+]Listening for ss....
+[+]Server Socket is created.
+[+]Bind successful to CLIENT_PORT 44999
+[+]Listening for client....

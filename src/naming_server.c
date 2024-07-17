@@ -33,8 +33,8 @@
 #include <poll.h>
 pthread_mutex_t sslock;
 
-#define CLIENT_PORT 44456
-#define SERVER_PORT 55587
+#define CLIENT_PORT 44999
+#define SERVER_PORT 44459
 int serversockfd;
 #define MAX_SIZE 1024
 #define MAX_WORDS_QUERY 10
@@ -72,19 +72,19 @@ typedef struct storage_server_info
 
 storage_server_info servers_info[MAX_SIZE];
 
-struct pass_to_thread
-{
-    struct sockaddr_in addr;
-    int newsocket;
-    int index;
-};
-
 struct server_initialisation_message
 {
     char storage_server_ip[32];
     int port_number_for_naming_server;
     int port_number_for_client;
     int num_paths;
+};
+
+struct pass_to_thread
+{
+    struct sockaddr_in addr;
+    int newsocket;
+    int index;
 };
 
 int search_in_trie_helper(struct trie *root, char *word)
@@ -154,6 +154,7 @@ int sync_storage_server(char *storage_server_parent_path)
     strcat(query,storage_server_parent_path);
     strcat(query," ");
     query_execute(query, 0, 0);
+    
     // now copy
     char query2[1024]="COPY ";
     strcat(query2,storage_server_parent_path);
@@ -223,16 +224,16 @@ int backup_server_data(int server_index)
     // now we need to copy this whole folder to the backup server
     // first check if there are any free slots available or not
     servers_info[server_index].main_parent_directory_path = strdup(main_parent_directory);
-    if (server_socket_backup_1 == -1)
-    {
-        printc(RED, "Backup Server 1 is down. Please restart it.\n");
-        return -1;
-    }
-    else if (server_socket_backup_2 == -1)
-    {
-        printc(RED, "Backup Server 2 is down. Please restart it.\n");
-        return -1;
-    }
+    // if (server_socket_backup_1 == -1)
+    // {
+    //     printc(RED, "Backup Server 1 is down. Please restart it.\n");
+    //     return -1;
+    // }
+    // else if (server_socket_backup_2 == -1)
+    // {
+    //     printc(RED, "Backup Server 2 is down. Please restart it.\n");
+    //     return -1;
+    // }
     // if both are working then so backup
 
     char create_query[1024] = "CREATE ";
@@ -433,11 +434,261 @@ int copy_diffserver(int ss_sock1, int ss_sock2, char *dest_path, int ss_id_2)
     return 0;
 }
 
+void signalfunction(int newsocket, int port, int index)
+{
+    sleep(1);
+    // printf("here");
+    int signalsocket, ret;
+    struct sockaddr_in serverAddr;
+
+    signalsocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (signalsocket < 0)
+    {
+        printc(RED, "[-]Error in creation of socket for signal .\n");
+    }
+    printc(GREEN, "[+]Signal Socket is created.\n");
+
+    memset(&serverAddr, '\0', sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);
+
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    ret = connect(signalsocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr));
+
+    // printf("PORT NUMBER: %d\n", serverAddr.sin_port);
+    if (ret < 0)
+    {
+        printc(RED, "[-]Error in connection with Naming server.\n");
+    }
+    printc(GREEN, "[+]Connected to Storage Server on Signal Socket.\n");
+    int val = 4;
+    char buffer[MAX_SIZE];
+    while (1)
+    {
+        usleep(100000);
+        int r = recv(signalsocket, (int *)&val, MAX_SIZE, 0);
+        if (r < 0)
+        {
+            printc(RED, "Error in recieving signal for Storage Server Disconnection.\n");
+        }
+        // printc(GREEN, "rec %d ", val);
+        if (val == 1)
+        {
+            printc(ORANGE, "Storage Server disconnected with %d.\n", servers_info[index].is_backup_1);
+            servers_info[index].on = 0;
+            // check if this was our backup server or not
+            if (servers_info[index].is_backup_1 == 1)
+            {
+                printc(YELLOW, "\tBackup Server 1 has been disconnected.\n");
+                server_socket_backup_1 = -1;
+            }
+            if (servers_info[index].is_backup_2 == 1)
+            {
+                printc(YELLOW, "\tBackup Server 2 has been disconnected.\n");
+                server_socket_backup_2 = -1;
+            }
+            delete_storage_server_paths(index);
+
+            break;
+        }
+    }
+}
+
+
+void *ss_thread_handler(void *arg)
+{
+    // struct socket_addr_in new_addr=*(struct socket_addr)
+    // pthread_mutex_lock(&sslock);
+    struct server_initialisation_message st;
+
+    struct pass_to_thread pt = *((struct pass_to_thread *)(arg));
+    int newSocket = pt.newsocket;
+    struct sockaddr_in newAddr = pt.addr;
+    int index = pt.index;
+    recv(newSocket, (struct server_initialisation_message *)&st, sizeof(struct server_initialisation_message), 0);
+
+    servers_info[index].num_paths = st.num_paths;
+    servers_info[index].port_number_for_naming_server = st.port_number_for_naming_server;
+    servers_info[index].port_number_for_client = st.port_number_for_client;
+    servers_info[index].socket_number = newSocket; // this enables to send data anytime in any thread to the server
+    servers_info[index].on = 1;
+    for (int i = 0; i < st.num_paths; i++)
+    {
+        char buff[MAX_SIZE];
+        int r = recv(newSocket, (char *)&buff, sizeof(buff), 0);
+        if (r < 0)
+        {
+            // perror("error in recieving paths ind");
+            printc(RED, "Error in recieving accessible paths.\n");
+        }
+        printc(BLUE, "%s\n", buff);
+        // write_to_book("%s\n",buff);
+
+        if (strcmp(buff, "Backup1") == 0)
+        {
+            // this denotes this server is backup 1
+            printf("Backup1 connected\n");
+            server_socket_backup_1 = newSocket;
+            servers_info[index].is_backup_1 = 1;
+            insert(Trie_backup_1, buff, strlen(buff), index);
+            insert(Trie, buff, strlen(buff), index);
+        }
+        else if (strcmp(buff, "Backup2") == 0)
+        {
+            // this denotes this server is backup 2
+            printf("Backup2 connected\n");
+            server_socket_backup_2 = newSocket;
+            servers_info[index].is_backup_2 = 1;
+            printf("%d\n", servers_info[index].is_backup_1);
+            insert(Trie_backup_2, buff, strlen(buff), index);
+            insert(Trie, buff, strlen(buff), index);
+        }
+        else
+        {
+            servers_info[index].is_backup_1 = 0;
+            insert(Trie, buff, strlen(buff), index);
+        }
+
+        strcpy(servers_info[index].accessible_paths[i], (buff));
+    }
+    strcpy(servers_info[index].storage_server_ip, st.storage_server_ip);
+    // now take backup
+
+    int port = generate_random_port();
+    send(newSocket, (int *)&port, sizeof(int), 0);
+    printf("the sent socket num is %d.\n", port);
+
+    // bool backup_exists = false;
+    // for (int i = 0; i < backup_server_parent_paths_size; i++)
+    // {
+    //     /* code */
+    //     char *temp = strdup(backup_server_parent_paths[i]);
+    //     if (strcmp(temp, servers_info[index].main_parent_directory_path) == 0)
+    //     {
+    //         printc(BLUE, "Backup Exists\n");
+    //         backup_exists = true;
+    //         // int result1 = sync_storage_server(temp);
+    //         // if (result1 == -1)
+    //         // {
+    //         //     printc(RED, "No Backup Servers are connected.\n");
+    //         // }
+    //         // else
+    //         // {
+    //         //     printc(GREEN, "Storage Server synced.\n");
+    //         // }
+    //         break;
+    //     }
+    // }
+    // if (!backup_exists)
+    // {
+        // printc(BLUE, "Backup Doesn't Exists\n");
+        if (servers_info[index].is_backup_1 == 0 && servers_info[index].is_backup_2 == 0)
+        {
+            printf("in if condition ");
+            // backup_server_data(index);
+            // backup_server_parent_paths[backup_server_parent_paths_size++] = (char *)malloc(sizeof(char) * MAX_SIZE);
+            // strcpy(backup_server_parent_paths[backup_server_parent_paths_size - 1], servers_info[index].main_parent_directory_path);
+        }
+    // }
+
+    // signalfunction(newSocket, port, index);
+    // printc(ORANGE, "brooo\n");
+}
+
+
+void *connect_ss_thread(void *arg)
+{
+    int sockfd, ret;
+    struct sockaddr_in serverAddr;
+
+    int newSocket;
+    struct sockaddr_in newAddr;
+
+    socklen_t addr_size;
+
+    char buffer[MAX_SIZE];
+    pid_t childpid;
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    serversockfd = sockfd;
+    if (sockfd < 0)
+    {
+        // printf("[-]Error in ss.\n");
+        printc(RED, "Error in creating sockfd for storage server connection.\n");
+        // exit(1);
+    }
+    // printf("[+]Server Socket is created in ss.\n");
+    printc(GREEN, "[+]Server Socket is created in ss.\n");
+    write_to_book("[+]Server Socket is created in ss.\n");
+    memset(&serverAddr, '\0', sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(SERVER_PORT);
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    ret = bind(sockfd, (struct sockaddr *)&serverAddr, sizeof(serverAddr));
+    if (ret < 0)
+    {
+        // printf("[-]Error in binding ss.\n");
+        printc(RED, "Error in binding Storage server socket.\n");
+        // exit(1);
+    }
+    // printf("[+]Bind to CLIENT_PORT in ss %d\n", SERVER_PORT);
+    printc(GREEN, "[+]Bind successful to CLIENT_PORT in ss %d\n", SERVER_PORT);
+    write_to_book("[+]Bind successful to CLIENT_PORT in ss %d\n", SERVER_PORT);
+    if (listen(sockfd, 10) == 0)
+    {
+        // printf("[+]Listening in ss....\n");
+        printc(GREEN, "[+]Listening for ss....\n");
+        write_to_book("[+]Listening for ss....\n");
+    }
+    else
+    {
+        // printf("[-]Error in binding ss.\n");
+        printc(RED, "Error in binding with Storage server port.\n");
+    }
+
+    int current_ss = 0;
+    pthread_t ss_threads[MAX_SIZE];
+
+    while (1)
+    {
+        // printf("in while loop");
+        newSocket = accept(sockfd, (struct sockaddr *)&newAddr, &addr_size);
+        if (newSocket < 0)
+        {
+            // exit(1);
+            printc(RED, "Error in accepting storage server connection request.\n");
+        }
+        // printf("Connection accepted from %s:%d\n", inet_ntoa(newAddr.sin_addr), ntohs(newAddr.sin_CLIENT_PORT));
+        printc(GREEN, "Connection accepted from %d\n", newAddr.sin_port);
+        write_to_book("Connection accepted from %d\n", newAddr.sin_port);
+        struct pass_to_thread pt;
+        pt.addr = newAddr;
+        pt.newsocket = newSocket;
+        pt.index = current_ss;
+        int response = pthread_create(&ss_threads[current_ss], NULL, ss_thread_handler, (struct pass_to_thread *)&pt);
+
+        if (response < 0)
+        {
+            // perror("Storage Server thread not created\n");
+            printc(RED, "Storage Server thread not created\n");
+        }
+        // pthread_join(client_threads)
+        current_ss++;
+        number_of_ss++;
+    }
+    for (int i = 0; i < number_of_ss; i++)
+    {
+        pthread_join(ss_threads[i], NULL);
+    }
+
+    close(newSocket);
+}
+
 void query_execute(char *buffer, int newSocket, int backup_ind)
 {
-
     // printc(MAGENTA, "query: %s", buffer);
-
     char *temp = strdup(buffer);
     // printf("Client: %s\n", buffer);
     printc(ORANGE, "Client: %s\n", buffer);
@@ -750,6 +1001,9 @@ void *client_thread_handler(void *arg)
     while (1)
     {
         bzero(buffer, MAX_SIZE);
+        
+        // recieve the instruction from the client 
+        // this recv will also prevent the infinite loop
         recv(newSocket, (char *)&buffer, sizeof(buffer), 0);
         // printf("fsdhjkgyhfrhedsgfyuhedsrtydsfghjkbfdhgdfijghdfjgdfhgifdughdfighdsf");
         if (strlen(buffer) == 0 || strcmp(buffer, ":exit") == 0)
@@ -759,170 +1013,13 @@ void *client_thread_handler(void *arg)
             printc(RED, "Client with port number %d disconnected.\n", newAddr.sin_port);
             break;
         }
+        // execute the query
+
+        printc(MAGENTA, "Query is this %s\n", buffer);
         query_execute(buffer, newSocket, -1);
         bzero(buffer, sizeof(buffer));
     }
     // pthread_mutexunlock(&sslock);
-}
-
-void signalfunction(int newsocket, int port, int index)
-{
-    sleep(1);
-    // printf("here");
-    int signalsocket, ret;
-    struct sockaddr_in serverAddr;
-
-    signalsocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (signalsocket < 0)
-    {
-        printc(RED, "[-]Error in creation of socket for signal .\n");
-    }
-    printc(GREEN, "[+]Signal Socket is created.\n");
-
-    memset(&serverAddr, '\0', sizeof(serverAddr));
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(port);
-
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-    ret = connect(signalsocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr));
-
-    // printf("PORT NUMBER: %d\n", serverAddr.sin_port);
-    if (ret < 0)
-    {
-        printc(RED, "[-]Error in connection with Naming server.\n");
-    }
-    printc(GREEN, "[+]Connected to Storage Server on Signal Socket.\n");
-    int val = 4;
-    char buffer[MAX_SIZE];
-    while (1)
-    {
-        usleep(100000);
-        int r = recv(signalsocket, (int *)&val, MAX_SIZE, 0);
-        if (r < 0)
-        {
-            printc(RED, "Error in recieving signal for Storage Server Disconnection.\n");
-        }
-        // printc(GREEN, "rec %d ", val);
-        if (val == 1)
-        {
-            printc(ORANGE, "Storage Server disconnected with %d.\n", servers_info[index].is_backup_1);
-            servers_info[index].on = 0;
-            // check if this was our backup server or not
-            if (servers_info[index].is_backup_1 == 1)
-            {
-                printc(YELLOW, "\tBackup Server 1 has been disconnected.\n");
-                server_socket_backup_1 = -1;
-            }
-            if (servers_info[index].is_backup_2 == 1)
-            {
-                printc(YELLOW, "\tBackup Server 2 has been disconnected.\n");
-                server_socket_backup_2 = -1;
-            }
-            delete_storage_server_paths(index);
-
-            break;
-        }
-    }
-}
-
-void *ss_thread_handler(void *arg)
-{
-    // struct socket_addr_in new_addr=*(struct socket_addr)
-    // pthread_mutex_lock(&sslock);
-    struct server_initialisation_message st;
-
-    struct pass_to_thread pt = *((struct pass_to_thread *)(arg));
-    int newSocket = pt.newsocket;
-    struct sockaddr_in newAddr = pt.addr;
-    int index = pt.index;
-    recv(newSocket, (struct server_initialisation_message *)&st, sizeof(struct server_initialisation_message), 0);
-
-    servers_info[index].num_paths = st.num_paths;
-    servers_info[index].port_number_for_naming_server = st.port_number_for_naming_server;
-    servers_info[index].port_number_for_client = st.port_number_for_client;
-    servers_info[index].socket_number = newSocket; // this enables to send data anytime in any thread to the server
-    servers_info[index].on = 1;
-    for (int i = 0; i < st.num_paths; i++)
-    {
-        char buff[MAX_SIZE];
-        int r = recv(newSocket, (char *)&buff, sizeof(buff), 0);
-        if (r < 0)
-        {
-            // perror("error in recieving paths ind");
-            printc(RED, "Error in recieving accessible paths.\n");
-        }
-        printc(BLUE, "%s\n", buff);
-        // write_to_book("%s\n",buff);
-
-        if (strcmp(buff, "Backup1") == 0)
-        {
-            // this denotes this server is backup 1
-            printf("Backup1 connected\n");
-            server_socket_backup_1 = newSocket;
-            servers_info[index].is_backup_1 = 1;
-            insert(Trie_backup_1, buff, strlen(buff), index);
-            insert(Trie, buff, strlen(buff), index);
-        }
-        else if (strcmp(buff, "Backup2") == 0)
-        {
-            // this denotes this server is backup 2
-            printf("Backup2 connected\n");
-            server_socket_backup_2 = newSocket;
-            servers_info[index].is_backup_2 = 1;
-            printf("%d\n", servers_info[index].is_backup_1);
-            insert(Trie_backup_2, buff, strlen(buff), index);
-            insert(Trie, buff, strlen(buff), index);
-        }
-        else
-        {
-            servers_info[index].is_backup_1 = 0;
-            insert(Trie, buff, strlen(buff), index);
-        }
-
-        strcpy(servers_info[index].accessible_paths[i], (buff));
-    }
-    strcpy(servers_info[index].storage_server_ip, st.storage_server_ip);
-    // now take backup
-
-    int port = generate_random_port();
-    send(newSocket, (int *)&port, sizeof(int), 0);
-    printf("the sent socket num is %d.\n", port);
-
-    // bool backup_exists = false;
-    // for (int i = 0; i < backup_server_parent_paths_size; i++)
-    // {
-    //     /* code */
-    //     char *temp = strdup(backup_server_parent_paths[i]);
-    //     if (strcmp(temp, servers_info[index].main_parent_directory_path) == 0)
-    //     {
-    //         printc(BLUE, "Backup Exists\n");
-    //         backup_exists = true;
-    //         // int result1 = sync_storage_server(temp);
-    //         // if (result1 == -1)
-    //         // {
-    //         //     printc(RED, "No Backup Servers are connected.\n");
-    //         // }
-    //         // else
-    //         // {
-    //         //     printc(GREEN, "Storage Server synced.\n");
-    //         // }
-    //         break;
-    //     }
-    // }
-    // if (!backup_exists)
-    // {
-        // printc(BLUE, "Backup Doesn't Exists\n");
-        if (servers_info[index].is_backup_1 == 0 && servers_info[index].is_backup_2 == 0)
-        {
-            backup_server_data(index);
-            backup_server_parent_paths[backup_server_parent_paths_size++] = (char *)malloc(sizeof(char) * MAX_SIZE);
-            strcpy(backup_server_parent_paths[backup_server_parent_paths_size - 1], servers_info[index].main_parent_directory_path);
-        }
-    // }
-
-    signalfunction(newSocket, port, index);
-    // printc(ORANGE, "brooo\n");
 }
 
 void *connect_clients_thread(void *arg)
@@ -981,6 +1078,8 @@ void *connect_clients_thread(void *arg)
     {
         // printf("in while loop");
         sleep(1);
+        // this accept will help it preventing infinite loop 
+        printc(ORANGE, "Waiting for client connection.\n");
         newSocket = accept(sockfd, (struct sockaddr *)&newAddr, &addr_size);
         if (newSocket < 0)
         {
@@ -1011,100 +1110,11 @@ void *connect_clients_thread(void *arg)
 
     close(newSocket);
 }
-void *connect_ss_thread(void *arg)
-{
-    int sockfd, ret;
-    struct sockaddr_in serverAddr;
-
-    int newSocket;
-    struct sockaddr_in newAddr;
-
-    socklen_t addr_size;
-
-    char buffer[MAX_SIZE];
-    pid_t childpid;
-
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    serversockfd = sockfd;
-    if (sockfd < 0)
-    {
-        // printf("[-]Error in ss.\n");
-        printc(RED, "Error in creating sockfd for storage server connection.\n");
-        // exit(1);
-    }
-    // printf("[+]Server Socket is created in ss.\n");
-    printc(GREEN, "[+]Server Socket is created in ss.\n");
-    write_to_book("[+]Server Socket is created in ss.\n");
-    memset(&serverAddr, '\0', sizeof(serverAddr));
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(SERVER_PORT);
-    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-    ret = bind(sockfd, (struct sockaddr *)&serverAddr, sizeof(serverAddr));
-    if (ret < 0)
-    {
-        // printf("[-]Error in binding ss.\n");
-        printc(RED, "Error in binding Storage server socket.\n");
-        // exit(1);
-    }
-    // printf("[+]Bind to CLIENT_PORT in ss %d\n", SERVER_PORT);
-    printc(GREEN, "[+]Bind successful to CLIENT_PORT in ss %d\n", SERVER_PORT);
-    write_to_book("[+]Bind successful to CLIENT_PORT in ss %d\n", SERVER_PORT);
-    if (listen(sockfd, 10) == 0)
-    {
-        // printf("[+]Listening in ss....\n");
-        printc(GREEN, "[+]Listening for ss....\n");
-        write_to_book("[+]Listening for ss....\n");
-    }
-    else
-    {
-        // printf("[-]Error in binding ss.\n");
-        printc(RED, "Error in binding with Storage server port.\n");
-    }
-
-    int current_ss = 0;
-    pthread_t ss_threads[MAX_SIZE];
-
-    while (1)
-    {
-        // printf("in while loop");
-        newSocket = accept(sockfd, (struct sockaddr *)&newAddr, &addr_size);
-        if (newSocket < 0)
-        {
-            // exit(1);
-            printc(RED, "Error in accepting storage server connection request.\n");
-        }
-        // printf("Connection accepted from %s:%d\n", inet_ntoa(newAddr.sin_addr), ntohs(newAddr.sin_CLIENT_PORT));
-        printc(GREEN, "Connection accepted from %d\n", newAddr.sin_port);
-        write_to_book("Connection accepted from %d\n", newAddr.sin_port);
-        struct pass_to_thread pt;
-        pt.addr = newAddr;
-        pt.newsocket = newSocket;
-        pt.index = current_ss;
-        int response = pthread_create(&ss_threads[current_ss], NULL, ss_thread_handler, (struct pass_to_thread *)&pt);
-
-        if (response < 0)
-        {
-            // perror("Storage Server thread not created\n");
-            printc(RED, "Storage Server thread not created\n");
-        }
-        // pthread_join(client_threads)
-        current_ss++;
-        number_of_ss++;
-    }
-    for (int i = 0; i < number_of_ss; i++)
-    {
-        pthread_join(ss_threads[i], NULL);
-    }
-
-    close(newSocket);
-}
 
 int main()
 {
     backup_server_parent_paths = (char **)malloc(sizeof(char *) * MAX_SIZE);
-    for (int i = 0; i < MAX_SIZE; i++)
-    {
+    for (int i = 0; i < MAX_SIZE; i++){
         backup_server_parent_paths[i] = (char *)malloc(sizeof(char) * MAX_SIZE);
     }
 
@@ -1116,24 +1126,28 @@ int main()
     sem_init(&writelock, 0, 1);
     insert(Trie, "hello", 5, 55);
     LRU = createLRUCache(10);
+
     pthread_t client_thread;
 
+    // create a thread that allows connection to multiple clients
     int response = pthread_create(&client_thread, NULL, connect_clients_thread, NULL);
-    if (response < 0)
-    {
+
+    if (response < 0){
         // perror("Client Handler thread not created");
         printc(RED, "Client Handler thread not created");
     }
 
     pthread_t ss_thread;
 
+    // create a thread that allows connection to multiple storage servers
+
     int response1 = pthread_create(&ss_thread, NULL, connect_ss_thread, NULL);
 
-    if (response1 < 0)
-    {
+    if (response1 < 0){
         // perror("Storage Server thread not created");
         printc(RED, "Storage Server thread not created");
     }
+
     sleep(5);
     pthread_join(client_thread, NULL);
     pthread_join(ss_thread, NULL);

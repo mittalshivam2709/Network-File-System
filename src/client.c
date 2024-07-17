@@ -8,7 +8,7 @@
 #include <arpa/inet.h>
 
 #define MAX_SIZE 1024
-#define PORT 44456
+#define PORT 44999
 // change the port above if not connecting yeah bro
 
 #define RED "\x1b[31m"

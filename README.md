@@ -91,9 +91,9 @@ The project consists of 3 main code files- `naming_server.c`, `client.c`, `stora
 - Main Function
     - The data structures declared in the code `Trie` and `LRU` are initialised here. 
     - Threads for connection of servers (`connect_ss_thread`) and clients (`connect_clients_thread`) are created and the function waits for the completion of the threads (`pthread_join`) before exiting.
-- Backup of Storage Servers 
+<!-- - Backup of Storage Servers 
     - Everytime a new storage server connects, backup is stored in two other servers if no backup exists for that server, otherwise the backup is synced with the original data in the storage server. 
-    - Search also happens in the backup server if the original storage server is not connected currently. 
+    - Search also happens in the backup server if the original storage server is not connected currently.  -->
 
 
 
@@ -133,31 +133,31 @@ gcc client.c -o client_file
 Please follow the below usage syntax for operations from the client.
 - CREATE Operation- ```CREATE <file_path> <file_name> <flag>``` where `file_path` is the path of directory where new file/directory is to be created. `file_name` is the name of file/directory to be created. Flag is passed to notify whether it is a file or directory.
 ```bash 
-CREATE /home priet -f                       # creates a file priet in /home
-CREATE /home garvit -d                      # creates a directory garvit in /home
+CREATE home priet -f                       # creates a file priet in home
+CREATE home garvit -d                      # creates a directory garvit in home
 ```
 - DELETE Operation: ```DELETE <file_path>```. This deleted file/directory whose path is given in `file_path`.
 ```bash
-DELETE /home/garvit                         # deletes the directory garvit in home directory 
-DELETE /home/priet                          # deletes the file priet in home directory
+DELETE home/garvit                         # deletes the directory garvit in home directory 
+DELETE home/priet                          # deletes the file priet in home directory
 ```
 - COPY Operation: ```COPY <source_path> <destination_path>```. This copies the file/directory from the `source_path` to the `destination_path`.
 ```bash
-COPY /home/priet /home/garvit               # this copies the file priet to the /home/garvit directory
+COPY home/priet home/garvit               # this copies the file priet to the home/garvit directory
 ```
 
 - READ Operation: ```READ <file_path>```. This reads the file contents of the file present at `file_path`.
 ```bash
-READ /home/garvit/priet                     # reads the contents of file in /home/garvit 
+READ home/garvit/priet                     # reads the contents of file in home/garvit 
 ```
 - WRITE Operation: ```WRITE <file_path> <text>```. This write the `text` into the file present at the `file_path`. 
 ```bash
-WRITE /home/shivam.txt shivam mittal        # writes "shivam mittal" in shivam.txt present in /home
+WRITE home/shivam.txt shivam mittal        # writes "shivam mittal" in shivam.txt present in home
 ```
 
 - GET Operation: ```GET <file_path>```. This gets the size and permissions of the file given by the `file_path`.
 ```bash
-GET /home/shivam.txt                        # prints the size and permissions of shivam.txt in /home
+GET home/shivam.txt                        # prints the size and permissions of shivam.txt in home
 ```
 
 

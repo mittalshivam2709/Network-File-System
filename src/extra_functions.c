@@ -27,23 +27,23 @@
 #define UNDERLINE "\x1b[4m"
 #define REVERSED "\x1b[7m"
 // Node structure for doubly linked list
-typedef struct Node
-{
-    char *key;
-    int value;
-    struct Node *prev;
-    struct Node *next;
-} Node;
+// typedef struct Node
+// {
+//     char *key;
+//     int value;
+//     struct Node *prev;
+//     struct Node *next;
+// } Node;
 
-// LRUCache structure
-typedef struct LRUCache
-{
-    int capacity;
-    int size;
-    Node *head;
-    Node *tail;
-    Node **map; // Hash map for quick lookup of nodes
-} LRUCache;
+// // LRUCache structure
+// typedef struct LRUCache
+// {
+//     int capacity;
+//     int size;
+//     Node *head;
+//     Node *tail;
+//     Node **map; // Hash map for quick lookup of nodes
+// } LRUCache;
 
 void printc(const char *color, const char *format, ...)
 {

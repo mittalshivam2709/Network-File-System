@@ -48,7 +48,7 @@
 #define UNDERLINE "\x1b[4m"
 #define REVERSED "\x1b[7m"
 
-#define PORT 55587
+#define PORT 44459
 #define MAX_ENTRIES 100
 #define MAX_SIZE 1024
 
@@ -549,7 +549,6 @@ void copysend(int socket)
     // function to send all files for copying OK
 }
 
-
 void copy_recieve(char RECVPATH[MAX_SIZE], char RPATH[MAX_SIZE])
 {
     while (1)
@@ -1015,12 +1014,10 @@ int main()
     {
         printc(RED, "Could not send init mesaage to Naming server\n");
     }
-    for (int i = 0; i < count; i++)
-    {
+    for (int i = 0; i < count; i++){
         // printf("size of entries[i]=%d",sizeof(entries[i]));
         int v = send(ssSocket, (char *)&entries[i], sizeof(entries[i]), 0);
-        if (v < 0)
-        {
+        if (v < 0){
             printc(RED, "Could not sent path of all files to Naming server in init message.\n");
         }
     }

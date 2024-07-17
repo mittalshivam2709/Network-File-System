@@ -48,7 +48,7 @@
 #define UNDERLINE "\x1b[4m"
 #define REVERSED "\x1b[7m"
 
-#define PORT 55587
+#define PORT 55580
 #define MAX_ENTRIES 100
 #define MAX_SIZE 1024
 
